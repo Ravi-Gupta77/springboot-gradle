@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        form {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>CRUD App</h2>
+
+    <form id="crudForm">
+        <label for="itemName">Item Name:</label>
+        <input type="text" id="itemName" required>
+        <button type="submit">Add Item</button>
+    </form>
+
+    <table id="itemTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Item Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be added dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const crudForm = document.getElementById('crudForm');
+            const itemTable = document.getElementById('itemTable');
+            const tbody = itemTable.querySelector('tbody');
+
+            let itemId = 1;
+
+            crudForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const itemNameInput = document.getElementById('itemName');
+                const itemName = itemNameInput.value;
+
+                if (itemName) {
+                    // Add item to the table
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${itemId}</td>
+                        <td>${itemName}</td>
+                        <td>
+                            <button onclick="editItem(${itemId})">Edit</button>
+                            <button onclick="deleteItem(${itemId})">Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(newRow);
+
+                    // Increment item ID for the next item
+                    itemId++;
+
+                    // Clear the input field
+                    itemNameInput.value = '';
+                }
+            });
+
+            window.editItem = function (id) {
+                // In a real application, you would implement an edit functionality
+                console.log('Edit item with ID:', id);
+            };
+
+            window.deleteItem = function (id) {
+                // Remove the item from the table
+                const rowToRemove = document.querySelector(`#itemTable tbody tr:nth-child(${id})`);
+                if (rowToRemove) {
+                    rowToRemove.remove();
+                }
+            };
+        });
+    </script>
+
+</body>
+</html>
